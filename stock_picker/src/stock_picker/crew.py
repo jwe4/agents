@@ -7,8 +7,8 @@ from typing import List
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
 
 @CrewBase
-class Debate():
-    """Debate crew"""
+class StockPicker():
+    """StockPicker crew"""
 
     agents: List[BaseAgent]
     tasks: List[Task]
@@ -20,16 +20,16 @@ class Debate():
     # If you would like to add tools to your agents, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
-    def debater(self) -> Agent:
+    def researcher(self) -> Agent:
         return Agent(
-            config=self.agents_config['debater'], # type: ignore[index]
+            config=self.agents_config['researcher'], # type: ignore[index]
             verbose=True
         )
 
     @agent
-    def judge(self) -> Agent:
+    def reporting_analyst(self) -> Agent:
         return Agent(
-            config=self.agents_config['judge'], # type: ignore[index]
+            config=self.agents_config['reporting_analyst'], # type: ignore[index]
             verbose=True
         )
 
@@ -37,28 +37,21 @@ class Debate():
     # task dependencies, and task callbacks, check out the documentation:
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
     @task
-    def propose(self) -> Task:
+    def research_task(self) -> Task:
         return Task(
-            config=self.tasks_config['propose'], # type: ignore[index]
+            config=self.tasks_config['research_task'], # type: ignore[index]
         )
 
     @task
-    def oppose(self) -> Task:
+    def reporting_task(self) -> Task:
         return Task(
-            config=self.tasks_config['oppose'], # type: ignore[index]
+            config=self.tasks_config['reporting_task'], # type: ignore[index]
             output_file='report.md'
         )
-
-    @task
-    def decide(self) -> Task:
-        return Task(
-            config=self.tasks_config['decide'], # type: ignore[index]
-            output_file='report.md'
-        )    
 
     @crew
     def crew(self) -> Crew:
-        """Creates the Debate crew"""
+        """Creates the StockPicker crew"""
         # To learn how to add knowledge sources to your crew, check out the documentation:
         # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
 

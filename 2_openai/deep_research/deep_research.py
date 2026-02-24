@@ -17,6 +17,7 @@ with gr.Blocks(theme=gr.themes.Default(primary_hue="sky")) as ui:
     report = gr.Markdown(label="Report")
     
     run_button.click(fn=run, inputs=query_textbox, outputs=report)
+    # handles submit when user presses enter in the textbox
     query_textbox.submit(fn=run, inputs=query_textbox, outputs=report)
 
 ui.launch(inbrowser=True)

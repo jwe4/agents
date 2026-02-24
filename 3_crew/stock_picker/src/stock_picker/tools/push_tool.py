@@ -7,6 +7,7 @@ import requests
 
 class PushNotification(BaseModel):
     """A message to be sent to the user"""
+    # The ellipsis "..." in Field(..., description) means this field is required.
     message: str = Field(..., description="The message to be sent to the user.")
 
 class PushNotificationTool(BaseTool):

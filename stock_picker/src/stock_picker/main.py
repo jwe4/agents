@@ -1,31 +1,29 @@
 #!/usr/bin/env python
 import sys
 import warnings
-from pathlib import Path
 
-from dotenv import load_dotenv
 from datetime import datetime
 
-# Load API keys from parent agents/.env (OPENAI_API_KEY, GROQ_API_KEY, etc.)
-load_dotenv(Path(__file__).resolve().parents[4] / ".env")
-
-from financial_researcher.crew import FinancialResearcher
+from stock_picker.crew import StockPicker
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
-
+# This main file is intended to be a way for you to run your
+# crew locally, so refrain from adding unnecessary logic into this file.
+# Replace with inputs you want to test with, it will automatically
+# interpolate any tasks and agents information
 
 def run():
     """
     Run the crew.
     """
     inputs = {
-        'company': 'Tesla'
+        'topic': 'AI LLMs',
+        'current_year': str(datetime.now().year)
     }
 
     try:
-        result = FinancialResearcher().crew().kickoff(inputs=inputs)
-        print(result.raw)
+        StockPicker().crew().kickoff(inputs=inputs)
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 
@@ -39,7 +37,7 @@ def train():
         'current_year': str(datetime.now().year)
     }
     try:
-        FinancialResearcher().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+        StockPicker().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
@@ -49,7 +47,7 @@ def replay():
     Replay the crew execution from a specific task.
     """
     try:
-        FinancialResearcher().crew().replay(task_id=sys.argv[1])
+        StockPicker().crew().replay(task_id=sys.argv[1])
 
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")
@@ -64,7 +62,7 @@ def test():
     }
 
     try:
-        FinancialResearcher().crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
+        StockPicker().crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while testing the crew: {e}")
@@ -90,7 +88,7 @@ def run_with_trigger():
     }
 
     try:
-        result = FinancialResearcher().crew().kickoff(inputs=inputs)
+        result = StockPicker().crew().kickoff(inputs=inputs)
         return result
     except Exception as e:
         raise Exception(f"An error occurred while running the crew with trigger: {e}")
